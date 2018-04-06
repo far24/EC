@@ -80,9 +80,9 @@ demand_exp = [[70, 50, 85], # Time Period 1
 demand_port = [[80, 55, 65], [110, 75, 95]]
 
 # Capacity of the depot in the planning horizon
-capacity_depot = [[100,250,250], #Planning horizon 1
-                  [250,250,250]  #Planning horizon 2
-                  ]
+# capacity_depot = [[100,250,250], #Planning horizon 1
+#                   [250,250,250]  #Planning horizon 2
+#                   ]
 
 # Budget for each depot owner for new establishment and expansion for each time period
 #budget = []
@@ -414,8 +414,8 @@ for t in range(len(T)):
 
 #Capacity of the depot in different time horizon
 capacity_depot = [
-    [[[80, 75], [70,65]],[[250]]],  #[time_period][depot_owner][depot][carrier]
-    [[[500, 250], [500, 250]],[[250]]]
+    [[[80, 75], [70,65]],[[45,0]]],  #[time_period][depot_owner][depot][carrier]
+    [[[500, 250], [500, 250]],[[45,0]]]
                 ]
 
 
@@ -473,7 +473,7 @@ for t in range(len(T)):
 
 
 budget = [
-    [[[0, 100],[0]],[[0,100],[0]]],
+    [[[0, 100],[0]],[[0,100],[0]]], #[time_period][carrier][depot_owner][depot]
     [[[0, 110], [0]], [[0, 110], [0]]]
 ]
 
