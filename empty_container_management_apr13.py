@@ -180,7 +180,7 @@ for t in range(len(T)):
                     senses=["E"], rhs=[rh], names=['Depot_E_'+str(i)]
                 )
 
-'''
+
 x_imp_depot_all = []
 cost_imp_depot = []
 cost_imp_depot_all = []
@@ -612,7 +612,5 @@ for i in range(len(x_depot_port_all)):
 print("\nInventory at Depot:")
 for i in range(len(inventory_depot_all)):
     print((inventory_depot_all[i], sol.get_values(inventory_depot_all[i])))
-
-'''
 
 
