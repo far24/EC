@@ -91,7 +91,7 @@ expansion_depot = []
 # set the sense of the problem
 prob.objective.set_sense(prob.objective.sense.minimize)
 
-# variable add 0:
+# variable create:
 for t in range(len(T)): #time period
     depot_time.append([])
     for l in range(len(L)):
@@ -123,8 +123,8 @@ for t in range(len(T)-1):
                 bin_after_depot_time.append(depot_time[t+1][l][d][i])
                 bin_after_fixed_cost.append(fixed_cost[t+1][l][d][i])
 
-# print(bin_after_depot_time)
-# print(bin_after_fixed_cost)
+print(bin_after_depot_time)
+print(bin_after_fixed_cost)
 
 prob.variables.add(names= bin_after_depot_time,
                    obj= bin_after_fixed_cost,
@@ -143,8 +143,8 @@ for t in range(len(T)-1):
                 bin_prev_fixed_cost.append(-1 * fixed_cost[t][l][d][i])
 
 
-# print(bin_prev_depot_time)
-# print(bin_prev_fixed_cost)
+print(bin_prev_depot_time)
+print(bin_prev_fixed_cost)
 
 prob.variables.add(names= bin_prev_depot_time,
                    obj= bin_prev_fixed_cost,
@@ -162,7 +162,7 @@ for d in range(len(D)):
             for t in range(len(T)):
                 binary_constraint.append(depot_time[t][l][d][i])
                 rh = 0
-            # print(binary_constraint , rh)
+            print(binary_constraint , rh)
             prob.linear_constraints.add(
                 lin_expr= [cplex.SparsePair(binary_constraint, [-1,1])],
                 senses= ["G"], rhs= [rh], names=['Depot_Open_'+str(i)]
@@ -174,13 +174,13 @@ for t in range(len(T)):
         for d in range(len(D)):
             for i in range(len(EF[d])): # Existing depot
                 rh = 1
-                # print(depot_time[t][l][d][i], rh)
+                print(depot_time[t][l][d][i], rh)
                 prob.linear_constraints.add(
                     lin_expr = [cplex.SparsePair([depot_time[t][l][d][i]], [1])],
                     senses=["E"], rhs=[rh], names=['Depot_E_'+str(i)]
                 )
 
-
+'''
 x_imp_depot_all = []
 cost_imp_depot = []
 cost_imp_depot_all = []
@@ -613,5 +613,6 @@ print("\nInventory at Depot:")
 for i in range(len(inventory_depot_all)):
     print((inventory_depot_all[i], sol.get_values(inventory_depot_all[i])))
 
+'''
 
 
