@@ -59,6 +59,8 @@ print("Number of owner: ", num_owner, "Names are: ", set(owner))
 owner_depot = zip(owner, depot)
 print(owner_depot)
 
+# Assume, number of liner shipping company is 2
+L = [0]
 # for i in range(len(owner_depot)):
 #     print(owner_depot[i])
 
@@ -100,7 +102,6 @@ fc_owner, fc_depot, fc = read_dat_file("./owner_depot_FC_t1.dat")
 # print("Fixed cost are:", fc * -1 )
 # adding binary variable to the objective function with fixed cost as coefficient
 model.variables.add(names= y_S,
-                   obj= [-1*x for x in fc],
                    lb= [0] * len(y_S),
                    ub= [1] * len(y_S),
                    types= ['B'] * len(y_S)
@@ -115,13 +116,22 @@ model.variables.add(names= y_F,
 # Constraints: All existing facilities are open in the time period
 for y_index in range(len(y)):
     i_status = y[y_index]
-    if re.search('[E]', i_status):
+    if re.search('ES', i_status):
+        print(i_status)
         rh = 1
         model.linear_constraints.add(
             lin_expr=[cplex.SparsePair([i_status], [1])],
             senses=["E"], rhs=[rh], names=['ES']
         )
-
+for y_index in range(len(y)):
+    i_status = y[y_index]
+    if re.search('EF', i_status):
+        print(i_status)
+        rh = 1
+        model.linear_constraints.add(
+            lin_expr=[cplex.SparsePair([i_status], [1])],
+            senses=["E"], rhs=[rh], names=['FS']
+        )
 
 # Get the index of new/potential depot in the all facility list "y"
 num_N = []
@@ -140,7 +150,7 @@ for i in range(len(num_N) / 2):
     # print(y_N_finish, y_N_start)
     model.linear_constraints.add(
         lin_expr=[cplex.SparsePair([y_N_finish , y_N_start], [1, -1])],
-        senses=["G"], rhs=[rh], names=['NS']
+        senses=["E"], rhs=[rh], names=['NS']
     )
 #_______________________________________________________________________________________
 # Adding variable to objective function and constrains
@@ -157,8 +167,7 @@ dist_exp_depot = read_dat_file("./OD_j_i.dat")
 cost_imp_depot = []
 cost_imp_depot_all = []
 
-# Assume, number of liner shipping company is 2
-L = [0,1]
+
 
 for l in range(len(L)):
     x_imp_depot.append([])
@@ -223,8 +232,6 @@ dist_port_depot = read_dat_file("./OD_h_i.dat")
 cost_port_depot = []
 cost_port_depot_all = []
 
-# Assume, number of liner shipping company is 2
-L = [0,1]
 
 for l in range(len(L)):
     x_port_depot.append([])
@@ -289,8 +296,7 @@ dist_depot_exp = read_dat_file("./OD_i_k.dat")
 cost_depot_exp = []
 cost_depot_exp_all = []
 
-# Assume, number of liner shipping company is 2
-L = [0,1]
+
 for l in range(len(L)):
     x_depot_exp.append([])
     cost_depot_exp.append([])
@@ -356,8 +362,7 @@ dist_depot_port = read_dat_file("./OD_i_h.dat")
 cost_depot_port = []
 cost_depot_port_all = []
 
-# Assume, number of liner shipping company is 2
-L = [0,1]
+
 
 for l in range(len(L)):
     x_depot_port.append([])
@@ -586,3 +591,4 @@ for i in range(len(x_depot_port_all)):
 print("\nInventory at Depot:")
 for i in range(len(v_depot_carr_F_all)):
     print((v_depot_carr_F_all[i], sol.get_values(v_depot_carr_F_all[i])))
+
