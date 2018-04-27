@@ -441,9 +441,6 @@ for t in range(len(T)-1):
 # for i in range(len(inventory_depot_all)):
 #     print(inventory_depot_all[i])
 
-
-
-
 for t in range(len(T)-1):
     for d in range(len(F)):
         for i in range(len(F[d])):
